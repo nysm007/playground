@@ -1,0 +1,25 @@
+Reference: https://medium.com/google-cloud/running-jupyter-notebooks-on-gpu-on-google-cloud-d44f57d22dbd
+
+1/ First step
+~$ jupyter notebook --generate-config
+
+Writing default config to: /home/ubuntu/.jupyter/jupyter_notebook_config.py
+Edit /home/ubuntu/.jupyter/jupyter_notebook_config.py to include the following at the top:
+
+c = get_config()  # get the config object
+c.IPKernelApp.pylab = 'inline'  # in-line figure when using Matplotlib
+c.NotebookApp.open_browser = False  # do not open a browser window by default when using notebooks
+c.NotebookApp.token = '' # No token. But, please, please always use jupyter over ssh tunnel
+
+2/ Second step
+Set up a tunnel from your local machine to access Jupyter over ssh.
+~$ ssh -i ~/.ssh/[private key file] -L [localhost port, e.g. 8889]:localhost:[remove port, e.g. 8888] username@<external ip address of gcp instance>
+
+After login using the command above, on the server, start Jupyter.
+
+~$ jupyter notebook
+
+3/ Finally
+Start using Jupyter on local browser
+Navigate to http://localhost:8899/ and create a new notebook. 
+Verify by importing keras or tensorflow. The remote log will also confirm whether you are using the GPU/Cuda libraries.
