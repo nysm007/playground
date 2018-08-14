@@ -59,17 +59,17 @@ def main_process(filename, global_pid_set):
                 exception_lines.append(traceback.print_exc() + "\n")
                 exception_lines.append(line + "\n")
 
-    print("TEST")
-    exception_file = "exception.{}".format(filename)
-    with open("exception.{}".format(exception_file), "w") as f:
-        f.writelines(exception_lines)
-
-    print("TEST2")
+    print("{}: TEST".format(os.getpid()))
+    # The following replace operation is very important, because the filename may contains "/", which
+    # will lead to an IOException if not handled.
+    exception_file = "exception.{}".format(filename).replace("/", ".")
+    if len(exception_lines) != 0:
+        with open("exception.{}".format(exception_file), "w") as f:
+            f.writelines(exception_lines)
 
     for k, v in date_dict.items():
-        new_filename = "rawlog.{}_0000.{}.gz".format(k, filename)
+        new_filename = "rawlog.{}_000000.{}.gz".format(k, filename).replace("/", ".")
         with gzip.open(new_filename, "w") as f:
-
             for line in v:
                 f.write(line)
         print("Dump finished for {} at {}.".format(new_filename, str(datetime.datetime.now())))
