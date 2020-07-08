@@ -1,14 +1,24 @@
-# Set qemu alias
-alias qemu="qemu-system-i386"
+autoload -Uz compinit
+compinit
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
 export ZSH=/Users/{username}/.oh-my-zsh
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home
-export ANACONDA_HOME=$HOME/anaconda3
-export PATH=$PATH:$ANACONDA_HOME/bin
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+eachdir() {
+	for dir in */; do
+		echo "=======>>> Processing subdir: $dir <<<======="
+		cd $dir
+		echo "Executing: $1"
+		eval "$1"
+		cd -
+	done
+}
+
+##############################################################################
+###### BELOW ARE ON-MY-ZSH TEMPLATES
+##############################################################################
 
 
 # Set name of the theme to load. Optionally, if you set this to "random"
@@ -58,7 +68,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git docker docker-compose docker-machine)
 
 source $ZSH/oh-my-zsh.sh
 
