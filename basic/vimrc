@@ -1,0 +1,6 @@
+syntax on
+
+set mouse=r
+set clipboard=unnamed
+set tabstop=4
+set shiftwidth=2
